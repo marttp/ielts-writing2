@@ -50,11 +50,11 @@ interface ApiResponse {
   messages: any[];
 }
 
-export const onRequest = async ({ request, env }) => {
+export const onRequestPost = async ({ request, env }) => {
   const AI_GATEWAY_PROJECT = env.AI_GATEWAY_PROJECT;
   const API_KEY = env.CLOUDFLARE_API_KEY;
 
-  const { message } = await request.text();
+  const { message } = await request.body();
 
   const url = `https://gateway.ai.cloudflare.com/v1/${AI_GATEWAY_PROJECT}/ielts-writing2-practice/workers-ai/@cf/meta/llama-3.2-3b-instruct`;
 
