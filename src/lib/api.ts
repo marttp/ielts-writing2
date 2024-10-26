@@ -1,9 +1,10 @@
+import axios from "axios";
+
 export async function reviewAnswer(message: string) {
-  const response = await fetch("/api", {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: message,
+  const response = await axios.post<string>("/api", message, {
+    headers: {
+      "Content-Type": "text/plain",
+    },
   });
-  const data = await response.text();
-  return data;
+  return response;
 }
