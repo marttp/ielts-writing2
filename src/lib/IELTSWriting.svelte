@@ -34,6 +34,14 @@
         }
     }
 
+    function stopTimer() {
+        if (timerRunning) {
+            clearInterval(timerInterval);
+            timerInterval = undefined;
+            timerRunning = false;
+        }
+    }
+
     $: minutes = Math.floor(timeLeft / 60);
     $: seconds = timeLeft % 60;
     $: timerDisplay = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
@@ -106,6 +114,7 @@
         analyzing = false;
         analysisResult = "";
         parsedResult = "";
+        stopTimer();
     }
 </script>
 
