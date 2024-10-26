@@ -53,6 +53,42 @@
     let analyzing: boolean = false;
     let analysisResult: string = "";
 
+    let parsedResult;
+    $: if (analysisResult) {
+        parsedResult = parseAnalysisResult(analysisResult);
+    } else {
+        parsedResult = null;
+    }
+
+    function parseAnalysisResult(text: string) {
+        const result: {
+            possibleBand?: string;
+            description?: string;
+            improvement?: string;
+        } = {};
+
+        const bandMatch = text.match(/Possible Band:\s*(.+)/i);
+        if (bandMatch) {
+            result.possibleBand = bandMatch[1].trim();
+        }
+
+        const descriptionMatch = text.match(
+            /Description:\s*([\s\S]*?)(?=Improvement:|$)/i,
+        );
+        if (descriptionMatch) {
+            result.description = descriptionMatch[1].trim();
+        }
+
+        const improvementMatch = text.match(
+            /Improvement:\s*([\s\S]*?)(?=Starting sentences|$)/i,
+        );
+        if (improvementMatch) {
+            result.improvement = improvementMatch[1].trim();
+        }
+
+        return result;
+    }
+
     async function analyzeAnswer() {
         if (!answer.trim()) return;
 
@@ -105,18 +141,37 @@
         <button
             class="px-4 py-2 bg-indigo-500 text-white rounded disabled:opacity-50"
             on:click={analyzeAnswer}
-            disabled={analyzing ||
-                !answer.trim() ||
-                wordCount < task2RequiredWords}
+            disabled={analyzing || !answer.trim()}
         >
-            {analyzing ? "Reviewing..." : "Review answer"}
+            {analyzing ? "Analyzing..." : "Analyze Answer"}
         </button>
+
         {#if analyzing}
             <p class="mt-2 text-gray-600">
                 Analyzing your answer, please wait...
             </p>
         {:else if analysisResult}
-            <p class="mt-2 text-gray-800">{analysisResult}</p>
+            {#if parsedResult}
+                <div class="mt-4">
+                    <h2 class="text-xl font-bold">
+                        Possible Band: {parsedResult.possibleBand}
+                    </h2>
+
+                    <h3 class="text-lg font-semibold mt-4">Description:</h3>
+                    <p class="mt-2 text-gray-800 whitespace-pre-line">
+                        {parsedResult.description}
+                    </p>
+
+                    <h3 class="text-lg font-semibold mt-4">Improvement:</h3>
+                    <p class="mt-2 text-gray-800 whitespace-pre-line">
+                        {parsedResult.improvement}
+                    </p>
+                </div>
+            {:else}
+                <p class="mt-2 text-gray-800 whitespace-pre-line">
+                    {analysisResult}
+                </p>
+            {/if}
         {/if}
     </div>
 </div>
