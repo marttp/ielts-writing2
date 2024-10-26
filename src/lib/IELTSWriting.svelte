@@ -10,11 +10,6 @@
     let answer: string = "";
     let wordCount: number = 0;
 
-    function randomizeQuestion() {
-        const index = Math.floor(Math.random() * questions.length);
-        currentQuestion = questions[index];
-    }
-
     onMount(() => {
         randomizeQuestion();
     });
@@ -101,6 +96,16 @@
         } finally {
             analyzing = false;
         }
+    }
+
+    function randomizeQuestion() {
+        const index = Math.floor(Math.random() * questions.length);
+        currentQuestion = questions[index];
+        answer = "";
+        wordCount = 0;
+        analyzing = false;
+        analysisResult = "";
+        parsedResult = "";
     }
 </script>
 
