@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const AI_GATEWAY_PROJECT = import.meta.env.AI_GATEWAY_PROJECT;
-const API_KEY = import.meta.env.CLOUDFLARE_API_KEY;
+const AI_GATEWAY_PROJECT =
+  import.meta.env.AI_GATEWAY_PROJECT || process.env.AI_GATEWAY_PROJECT;
+const API_KEY =
+  import.meta.env.CLOUDFLARE_API_KEY || process.env.CLOUDFLARE_API_KEY;
 
 const SYSTEM_PROMPT = `
   Please review the following IELTS Writing Task 2 response. Assess the answer based on the IELTS Writing band descriptors (Task Achievement, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy). Provide your feedback in the following format:
