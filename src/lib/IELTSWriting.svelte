@@ -16,7 +16,7 @@
 
     $: wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
 
-    let timeLeft: number = 60 * 60; // 60 minutes in seconds
+    let timeLeft: number = 30 * 60;
     let timerRunning: boolean = false;
     let timerInterval: NodeJS.Timer;
 
@@ -47,9 +47,9 @@
     $: timerDisplay = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
     $: timerColor =
-        timeLeft > 30 * 60
+        timeLeft > 15 * 60
             ? "bg-green-500"
-            : timeLeft > 20 * 60
+            : timeLeft > 12 * 60
               ? "bg-yellow-500"
               : "bg-red-500";
 
